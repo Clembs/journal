@@ -4,10 +4,12 @@ import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { api } from "../utils/api";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
+import { JournalLog } from "../lib/components/JournalLog";
 
 const Home: NextPage = () => {
-  const allLogs = api.journal.getAllLogs.useQuery();
   const user = useUser();
+  const allLogs = api.journal.getAllLogs.useQuery(user!.id);
+  const userInfo = api.journal.getUser.useQuery(user!.id);
   const supabaseClient = useSupabaseClient();
 
   useEffect(() => {}, [user]);
@@ -30,12 +32,10 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-black/90 text-white">
         <div className="rounded-xl">notes for {user.id}:</div>
 
+        {JSON.stringify(userInfo, null, 2)}
+
         {allLogs?.data?.map((log) => (
-          <div className="">
-            ID: {log.activityId}
-            <br />
-            Mood: {log.mood}
-          </div>
+          <JournalLog log={log}></JournalLog>
         ))}
       </main>
     </>

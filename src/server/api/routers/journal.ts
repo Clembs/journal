@@ -1,14 +1,28 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { z } from "zod";
 
 export const journalRoutes = createTRPCRouter({
-  getAllLogs: publicProcedure.query(({ ctx }) => {
-    const user = useUser();
+  getUser: publicProcedure
+    .input(z.string().nullable())
+    .query(({ ctx, input }) => {
+      if (!input) return {};
 
-    if (!user) return [];
+      return (
+        ctx.prisma.user.findFirst({
+          where: { id: input },
+        }) ?? {}
+      );
+    }),
+  getAllLogs: publicProcedure
+    .input(z.string().nullable())
+    .query(({ ctx, input }) => {
+      if (!input) return [];
 
-    return ctx.prisma.journalLog.findMany({
-      where: { id: user.id },
-    }) ?? [];
-  }),
+      return (
+        ctx.prisma.journalLog.findMany({
+          where: { id: input },
+        }) ?? []
+      );
+    }),
 });
