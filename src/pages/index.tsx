@@ -5,18 +5,17 @@ import { api } from "../utils/api";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
 import { JournalLog } from "../lib/components/JournalLog";
+import { NavBar } from "../lib/components/NavBar";
 
 const Home: NextPage = () => {
   const user = useUser();
-  const allLogs = api.journal.getAllLogs.useQuery(user!.id);
-  const userInfo = api.journal.getUser.useQuery(user!.id);
   const supabaseClient = useSupabaseClient();
-
-  useEffect(() => {}, [user]);
 
   if (!user) {
     return (
       <Auth
+        view="magic_link"
+        magicLink
         redirectTo="http://localhost:3000/"
         appearance={{ theme: ThemeSupa }}
         supabaseClient={supabaseClient}
@@ -24,15 +23,19 @@ const Home: NextPage = () => {
     );
   }
 
+  const allLogs = api.journal.getAllLogs.useQuery();
+  const userInfo = api.user.me.useQuery();
+
   return (
     <>
       <Head>
-        <title>Hi {user.id}</title>
+        <title>{new Date().toISOString()} - Journal</title>
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-black/90 text-white">
-        <div className="rounded-xl">notes for {user.id}:</div>
 
-        {JSON.stringify(userInfo, null, 2)}
+      <NavBar />
+
+      <main className="m-4 flex min-h-screen flex-col bg-white text-black">
+        {/* {JSON.stringify(userInfo, null, 2)} */}
 
         {allLogs?.data?.map((log) => (
           <JournalLog log={log}></JournalLog>
