@@ -8,13 +8,15 @@ datasource db {
 }
 
 model User {
-  id         String       @unique
+  id         String       @id
+  username   String
+  avatarHash String?      @map("avatar")
   activities Activity[]
   logs       JournalLog[]
 }
 
 model Activity {
-  id     String       @unique @default(uuid())
+  id     String       @id @default(uuid())
   user   User         @relation(fields: [userId], references: [id])
   userId String
   label  String
@@ -31,7 +33,7 @@ enum Mood {
 }
 
 model JournalLog {
-  id         String   @unique
+  id         String   @id
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   mood       Mood

@@ -3,7 +3,9 @@ CREATE TYPE "Mood" AS ENUM ('HAPPY', 'LAZY', 'AVERAGE', 'SAD', 'BOTHERED');
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" TEXT NOT NULL
+    "id" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "avatar" TEXT
 );
 
 -- CreateTable
