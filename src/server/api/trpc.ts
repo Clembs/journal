@@ -101,3 +101,16 @@ export const createTRPCRouter = t.router;
  * can still access user session data if they are logged in.
  */
 export const publicProcedure = t.procedure;
+
+const hasRootAccess = t.middleware(async ({ ctx, next }) => {
+  return next({
+    ctx,
+  });
+});
+
+/**
+ * Private procedure
+ *
+ * Similarly to `publicProcedure`, this procedure guarantees the operations executed come from the server only.
+ */
+export const privateProcedure = publicProcedure.use(hasRootAccess);

@@ -34,6 +34,7 @@ enum Mood {
 
 model JournalLog {
   id         String   @id
+  dateTime   DateTime  @default(now()) @db.Timestamptz()
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   mood       Mood
