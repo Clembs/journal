@@ -1,6 +1,4 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { z } from "zod";
-import { Mood } from "@prisma/client";
 
 export const userRoutes = createTRPCRouter({
   me: publicProcedure.query(({ ctx }) => {
@@ -8,6 +6,13 @@ export const userRoutes = createTRPCRouter({
 
     return ctx.prisma.user.findFirst({
       where: { id: ctx.user.id },
+    });
+  }),
+  activities: publicProcedure.query(({ ctx }) => {
+    if (!ctx.user) return null;
+
+    return ctx.prisma.activity.findMany({
+      where: { userId: ctx.user.id },
     });
   }),
 });

@@ -18,7 +18,7 @@ function NavBarItem(props: { route: string; title: string }) {
 
 export function NavBar() {
   return (
-    <div className="fixed bottom-0 left-0 flex w-full border-t-[1px] border-t-gray-200 p-2 backdrop-blur">
+    <div className="z-20 flex w-full border-t-[1px] border-t-gray-200 p-2 backdrop-blur">
       <NavBarItem title="Journal" route="/" />
       <NavBarItem title="Stats" route="/stats" />
     </div>

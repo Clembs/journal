@@ -26,9 +26,12 @@ const MyApp: AppType<{
       <Head>
         <title>Journal</title>
       </Head>
-
-      <NavBar />
-      <Component {...pageProps} />
+      <div className={`flex min-h-screen flex-col`}>
+        <main className={`flex h-full flex-1 flex-col`}>
+          <Component {...pageProps} />
+        </main>
+        <NavBar />
+      </div>
     </SessionContextProvider>
   );
 };

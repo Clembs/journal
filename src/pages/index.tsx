@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import { api } from "../utils/api";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
+import { CreateSheet } from "../lib/components/CreateSheet";
 
 const Home: NextPage = () => {
   const soup = useSupabaseClient();
@@ -19,17 +20,19 @@ const Home: NextPage = () => {
     );
   }
 
-  const allLogs = api.journal.getAllLogs.useQuery();
-
   return (
     <>
-      <main className="flex min-h-screen flex-col bg-white text-black">
+      <div className="flex-1">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nostrum
+        voluptate eum fugit in eligendi ipsa distinctio unde, nemo deleniti
+        ipsum. Enim, blanditiis culpa impedit sit possimus dolorem maiores harum
+        debitis?
         {/* {JSON.stringify(userInfo, null, 2)} */}
-
         {/* {allLogs?.data?.map((log) => (
           <JournalLog log={log}></JournalLog>
         ))} */}
-      </main>
+      </div>
+      <CreateSheet user={user} />
     </>
   );
 };
